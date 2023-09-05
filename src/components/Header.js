@@ -1,61 +1,77 @@
-import { LOGO_URL } from "../utils/constants";
-import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import useOnlineStatus from "../utils/useOnlineStatus";
-import UserContext from "../utils/UserContext";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { createBrowserRouter, RouterProvider, Outlet, Link } from "react-router-dom";
+import ReactDOM from "react-dom/client";
+
+import { HeartIcon, ShoppingBagIcon, ShoppingCartIcon, FaceFrownIcon, FaceSmileIcon, BellIcon } from '@heroicons/react/24/outline'
+
+const navigation = [
+    { name: 'Home', href: '/home', current: true },
+    { name: 'Women', href: '/product/women', current: false },
+    { name: 'Man', href: '/product/man', current: false },
+
+]
 
 const Header = () => {
-  const [btnNameReact, setBtnNameReact] = useState("Login");
 
-  const onlineStatus = useOnlineStatus();
+    return (
 
-  const { loggedInUser } = useContext(UserContext);
-  //console.log(loggedInUser);
+        <div className="space-x-4 w-full flex h-16 items-center justify-between fixed top-0  shadow-lg">
+            <div className="flex items-center">
 
-  // Subscribing to the store using a Selector
-  const cartItems = useSelector((store) => store.cart.items);
-  //console.log(cartItems);
+                <div className="ml-8 px-5">
+                    <Link to="/home">
+                        <img
+                            className="h-8  w-auto"
+                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                            alt="Your Company"
+                        />
+                    </Link>
+                </div>
 
-  return (
-    <div className="flex justify-between bg-pink-100 shadow-lg sm:bg-yellow-50 lg:bg-green-50">
-      <div className="logo-container">
-        <img className="w-56" src={LOGO_URL} />
-      </div>
-      <div className="flex items-center">
-        <ul className="flex p-4 m-4">
-          <li className="px-4">Online Status: {onlineStatus ? "✅" : "🔴"}</li>
-          <li className="px-4">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="px-4">
-            <Link to="/about">About Us</Link>
-          </li>
-          <li className="px-4">
-            <Link to="/contact">Contact Us</Link>
-          </li>
-          <li className="px-4">
-            <Link to="/grocery">Grocery</Link>
-          </li>
-          <li className="px-4 font-bold text-xl">
-            <Link to="/cart">Cart - ({cartItems.length} items)</Link>
-          </li>
-          <button
-            className="login"
-            onClick={() => {
-              btnNameReact === "Login"
-                ? setBtnNameReact("Logout")
-                : setBtnNameReact("Login");
-            }}
-          >
-            {btnNameReact}
-          </button>
 
-          <li className="px-4 ">{loggedInUser}</li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+                {navigation.map((item) => (
+                    <div className=" block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                        <Link to={item.href}>{item.name}</Link>
+                    </div>
+                ))}
+
+
+            </div>
+            <div className="flex items-center">
+
+               {/*  <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <Link to="/checkout/cart"> <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg></Link>
+                </div> */}
+
+                <div className="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
+                    <Link to="/notification"><svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    </Link>
+
+                </div>
+
+                <div className="font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
+                    <Link to="/notification"><BellIcon className="h-6 w-6" aria-hidden="true" /></Link>
+
+                </div>
+                <div className="flex flex-wrap font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
+                    <div><Link to="/wishlist"><HeartIcon className="h-6 w-6" aria-hidden="true" /></Link></div>
+                    {/*   <div>wishlist</div> */}
+                </div>
+
+                <div className="mr-8 font-bold px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">
+                    <Link to="/checkout/cart"><ShoppingBagIcon className="h-6 w-6" aria-hidden="true" /></Link>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    )
+}
 
 export default Header;

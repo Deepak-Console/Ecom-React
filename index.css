@@ -9,3 +9,16 @@
 .text-gold:hover{
     color: lightgoldenrodyellow;
 }
+
+
+.truncate-last-line {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+body {
+    background-color: #F1F3FB;
+}
+

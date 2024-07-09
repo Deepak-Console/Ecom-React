@@ -1,23 +1,18 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import appStore from "./appStore/appstore"; // Import your Redux store
+import ErrorBoundary from "./utils/ErrorBoundary";
 import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
   Link,
 } from "react-router-dom";
-import ReactDOM from "react-dom/client";
-
-const Header = lazy(() => import("./components/Header"));
-const ProductView = lazy(() => import("./components/ProductView"));
-
-import {
-  HeartIcon,
-  ShoppingBagIcon,
-  ShoppingCartIcon,
-  FaceFrownIcon,
-  FaceSmileIcon,
-  BellIcon,
-} from "@heroicons/react/24/outline";
+import Header from "./components/Header";
+import CrackerShop from "./components/CrackerShop";
+import ProductView from "./components/ProductView";
+import CartPage from "./components/Cart-1";
 
 const AppLayout = () => {
   return (
@@ -31,16 +26,28 @@ const AppLayout = () => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: <ErrorBoundary><AppLayout /></ErrorBoundary>,
     children: [
-      {
+    /*   {
         path: "/product/men",
         element: <ProductView />,
       },
       {
         path: "/product/women",
         element: <ProductView />,
+      }, 
+      {
+        path: "/product/crackers",
+        element: <ErrorBoundary><CrackerShop /></ErrorBoundary>,
+      },*/
+      {
+        path: "/home",
+        element: <ErrorBoundary><CrackerShop /></ErrorBoundary>,
       },
+      {
+        path: "/checkout/cart",
+        element: <CartPage />,
+      }
     ],
     errorElement: <Error />,
   },
@@ -48,4 +55,13 @@ const appRouter = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<RouterProvider router={appRouter} />);
+root.render(
+  <Provider store={appStore}>
+    <RouterProvider router={appRouter} />
+  </Provider>
+); 
+
+
+
+
+

@@ -5,11 +5,11 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 
 const Cart = () => {
     const dispatch = useDispatch();
-    const state = useSelector((state) => state); // Replace with your actual state structure
+    const state = useSelector((state) => state);
     const cartItems = Object.keys(state.cart).map((productId) => ({
         productId,
         quantity: state.cart[productId].quantity,
-        productDetails: state.products[productId].details, // Assuming you have products in your state
+        productDetails: state.products[productId].details,
     }));
 
     const removeFromCartHandler = (productId) => {
@@ -34,22 +34,22 @@ const Cart = () => {
 
     return (
         <div className="container mx-auto mt-1 p-4 flex flex-col lg:flex-row">
-            <div className="w-full lg:w-2/3 lg:mr-4 h-full overflow-y-auto mb-8 lg:mb-0 bg-white p-4">
+            <div className="w-full lg:w-2/3 lg:mr-4 h-screen overflow-y-auto mb-8 lg:mb-0 bg-white p-4">
                 <h1 className="text-3xl font-semibold mb-8">Shopping Cart</h1>
                 {cartItems.length === 0 ? (
                     <p className="text-gray-500">Your cart is empty.</p>
                 ) : (
                     <div>
                         {cartItems.map((item) => (
-                            <div key={item.productId} className="flex flex-col lg:flex-row items-center justify-between border-b border-gray-300 py-4 mb-4">
-                                <div className="flex items-center mb-4 lg:mb-0">
+                            <div key={item.productId} className="grid grid-cols-12 gap-4 border-b border-gray-300 py-4 mb-4">
+                                <div className="col-span-9 flex items-center">
                                     <img src={item.productDetails.imagePath} alt={item.productDetails.name} className="w-16 h-16 mr-4" />
                                     <div>
                                         <p className="text-lg font-semibold">{item.productDetails.name}</p>
-                                        <p className="text-gray-600">{/* Add product description or other details */}</p>
+                                        <p className="text-gray-600">{item.productDetails.description}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center">
+                                <div className="col-span-1 flex items-center justify-end">
                                     <div className="flex items-center border border-black px-2">
                                         <button
                                             className="text-black font-bold px-2 py-1 rounded-md hover:text-black-900 hover:scale-150 transform transition duration-300"
@@ -67,9 +67,13 @@ const Cart = () => {
                                             +
                                         </button>
                                     </div>
-                                    <p className="text-lg font-semibold ml-4">₹{item.quantity * item.productDetails.price}</p>
+                                </div>
+                                <div className="col-span-1 flex items-center justify-end">
+                                    <p className="text-lg font-semibold">₹{item.quantity * item.productDetails.price}</p>
+                                </div>
+                                <div className="col-span-1 flex items-center justify-start">
                                     <button
-                                        className="ml-4 text-red-600 hover:text-red-800 font-semibold"
+                                        className="text-red-600 hover:text-red-800 font-semibold"
                                         onClick={() => deleteIDFromcartHandler(item.productId)}
                                     >
                                         <TrashIcon className="h-6 w-6" aria-hidden="true" />
@@ -81,8 +85,8 @@ const Cart = () => {
                 )}
             </div>
 
-            <div className="w-full lg:w-1/3 bg-white p-4">
-                <div className="p-4 rounded h-auto lg:h-[200px]">
+            <div className="w-full lg:w-1/3 bg-white p-4 lg:self-start">
+                <div className="p-4 rounded">
                     <h2 className="text-xl font-semibold mb-4">Cart Summary</h2>
                     <div className="flex justify-between mb-2">
                         <span>Total Items:</span>
